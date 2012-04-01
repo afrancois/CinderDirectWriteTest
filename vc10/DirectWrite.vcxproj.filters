@@ -21,12 +21,51 @@
     <ClCompile Include="..\src\CustomDWriteRender.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\ResourceFontCollectionLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ResourceFontContext.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ResourceFontFileEnumerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ResourceFontFileLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ResourceFontFileStream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\DWTextBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\CustomDWriteRender.h">
+    <ClInclude Include="..\src\CustomDWriteRender.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ResourceFontCollectionLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ResourceFontContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ResourceFontFileEnumerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ResourceFontFileLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ResourceFontFileStream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\DWTextBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -34,5 +73,25 @@
     <ResourceCompile Include="Resources.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\resources\HelveticaRoundedLTStd-Bd.otf">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\resources\HelveticaRoundedLTStd-BdCn.otf">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\resources\HelveticaRoundedLTStd-BdCnO.otf">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\resources\HelveticaRoundedLTStd-BdO.otf">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\resources\HelveticaRoundedLTStd-Black.otf">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\resources\HelveticaRoundedLTStd-BlkO.otf">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

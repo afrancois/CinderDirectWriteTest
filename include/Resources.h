@@ -1,5 +1,9 @@
 #pragma once
 #include "cinder/CinderResources.h"
-#include "Resources.h"
 
-//#define RES_MY_RES			CINDER_RESOURCE( ../resources/, image_name.png, 128, IMAGE )
+#define RES_HELVETICA_RND_LT_STD_BOLD			CINDER_RESOURCE( ../resources/, HelveticaRoundedLTStd-Bd.otf, 128, FONT)
+#define RES_HELVETICA_RND_LT_STD_BOLD_CN			CINDER_RESOURCE( ../resources/, HelveticaRoundedLTStd-BdCn.otf, 129, FONT)
+#define RES_HELVETICA_RND_LT_STD_BOLD_CN_O			CINDER_RESOURCE( ../resources/, HelveticaRoundedLTStd-BdCnO.otf, 130, FONT)
+#define RES_HELVETICA_RND_LT_STD_BOLD_O			CINDER_RESOURCE( ../resources/, HelveticaRoundedLTStd-BdO.otf, 131, FONT)
+#define RES_HELVETICA_RND_LT_STD_BLACK			CINDER_RESOURCE( ../resources/, HelveticaRoundedLTStd-Black.otf, 132, FONT)
+#define RES_HELVETICA_RND_LT_STD_BLACK_O			CINDER_RESOURCE( ../resources/, HelveticaRoundedLTStd-BlkO.otf, 133, FONT)

@@ -1,7 +1,10 @@
 #include "CustomDWriteRender.h"
 #include "cinder/Surface.h"
+#include "cinder/ip/Blend.h"
 #include <algorithm>
 #include <ppl.h>
+#include "DWTextBox.h"
+
 
 using namespace ci;
 
@@ -18,6 +21,8 @@ STDMETHODIMP CustomDWriteRender::DrawGlyphRun( __maybenull void* clientDrawingCo
 	
 	HRESULT hr;
 	IDWriteGlyphRunAnalysis* glyphRunAnalysis;
+	DWTextBox::DWTBContext* ctx = static_cast<DWTextBox::DWTBContext*>(clientDrawingContext);
+	ci::Surface* finalSurface = ctx->surface;
 	RECT textureBounds;
 	hr = mDWriteFactory->CreateGlyphRunAnalysis(glyphRun,0.75f,NULL,DWRITE_RENDERING_MODE_CLEARTYPE_NATURAL_SYMMETRIC,DWRITE_MEASURING_MODE_GDI_CLASSIC,0.0f,0.0f,&glyphRunAnalysis);
 	if(hr!=S_OK)
@@ -29,9 +34,11 @@ STDMETHODIMP CustomDWriteRender::DrawGlyphRun( __maybenull void* clientDrawingCo
 	int height = textureBounds.bottom -textureBounds.top;
 
 	ci::Surface surface(width,height,true,ci::SurfaceChannelOrder::ARGB);
-	surface.setPremultiplied(true);
+	//surface.setPremultiplied(true);
 	uint8_t *dataAlpha = static_cast<uint8_t*>(malloc(width*height*4));
 	uint8_t *data = static_cast<uint8_t*>(malloc(width*height*3));
+	DWRITE_FONT_METRICS fontMetrics;
+	glyphRun->fontFace->GetMetrics(&fontMetrics);
 	glyphRunAnalysis->CreateAlphaTexture(DWRITE_TEXTURE_CLEARTYPE_3x1,&textureBounds,data,width*height*3);
 	Concurrency::parallel_for(0,width*height,[&](int i){
 		float combAlpha = (data[i*3] + data[i*3+1] +data[i*3+2])/3;
@@ -45,7 +52,12 @@ STDMETHODIMP CustomDWriteRender::DrawGlyphRun( __maybenull void* clientDrawingCo
 		//dataAlpha[i*4+0] = (data[i*3] + data[i*3+1] +data[i*3+2])/3;
 	});
 	memcpy(surface.getData(),dataAlpha,width*height*4);
-	mTexture = gl::Texture(surface);
+	float ratio = (float)(glyphRun->fontEmSize)/(float)fontMetrics.designUnitsPerEm;
+	int ascend = fontMetrics.ascent*ratio;
+	
+	//finalSurface->copyFrom(surface,surface.getBounds(),Vec2i(baselineOriginX,baselineOriginY-ascend));
+	ci::ip::blend(finalSurface,surface,surface.getBounds(),Vec2i(baselineOriginX,baselineOriginY-ascend));
+	//mTexture = gl::Texture(surface);
 	free (data);
 	free (dataAlpha);
 	return S_OK;
