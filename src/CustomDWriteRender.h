@@ -1,6 +1,7 @@
 #pragma once
 #include <dwrite.h>
 #include <cinder/gl/Texture.h>
+
 class CustomDWriteRender :
 	public IDWriteTextRenderer 
 {
