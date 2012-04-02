@@ -10,6 +10,7 @@ using namespace ci;
 DWTextBox::DWTextBox(void):mIsInitalized(false),mNeedsUpdate(true),mFormat(NULL),mLayout(NULL),mAlignment(LEADING),mLineSpacing(0)
 {
 	mFontContext.Initialize();
+	mTexture = ci::gl::Texture(2,2);
 }
 
 
@@ -18,7 +19,8 @@ DWTextBox::~DWTextBox(void)
 	//cleanup;
 	if(mIsInitalized)
 	{
-
+		SafeRelease(&mLayout);
+		SafeRelease(&mFormat);
 	}
 }
 
@@ -107,7 +109,12 @@ void DWTextBox::init( std::string fontName,int fontSize,Vec2i maxSize,UINT* font
 	mSurface = Surface(maxSize.x,maxSize.y,true,ci::SurfaceChannelOrder::RGBA);
 	ip::fill(&mSurface,ColorAf(0,0,0,0));
 	mSurface.setPremultiplied(true);
-			
+	if(mTexture.getBounds().getWidth() != mSurface.getBounds().getWidth() || mTexture.getBounds().getHeight() != mSurface.getBounds().getHeight())
+	{
+		mTexture.reset();
+		mTexture = ci::gl::Texture(mSurface);
+	}
+	
 	mNeedsUpdate = true;
 }
 
@@ -132,7 +139,11 @@ CustomDWriteRender* DWTextBox::renderer()
 
 ci::Surface DWTextBox::render(Vec2i maxSize/*=Vec2i(0,0)*/)
 {
-		if(!mNeedsUpdate) return mSurface;
+		if(!mNeedsUpdate) {
+			return mSurface;
+		}
+
+		mNeedsUpdate = false;
 
 		HRESULT hr;	
 		if(maxSize == Vec2i::zero()){
@@ -165,7 +176,7 @@ ci::Surface DWTextBox::render(Vec2i maxSize/*=Vec2i(0,0)*/)
 			context.yOffset = 0;
 			context.calcOffset = 0;
 			//linespacing
-			if(1/*mLineSpacing!=0*/){
+			if(mLineSpacing!=0){
 				float linespacing,baseline,lineheight,fontSize;
 				//grab the text metrics for computing the baseline offset.
 				DWRITE_TEXT_METRICS metrics;
@@ -184,7 +195,13 @@ ci::Surface DWTextBox::render(Vec2i maxSize/*=Vec2i(0,0)*/)
 			hr = mLayout->Draw(&context,DWTextBox::renderer(),0,context.yOffset);
 		}
 		
+		mTexture.update(mSurface);
 		return mSurface;
+}
+
+ci::gl::Texture DWTextBox::getTexture()
+{
+	return mTexture;
 }
 
 IDWriteFactory* DWTextBox::mFactory = NULL;

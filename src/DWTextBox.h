@@ -38,8 +38,10 @@ public:
 
 	void setAlignment(DWTextBox::Alignment align);
 	void setLineSpacing(int32_t spacing);
-
+	
 	ci::Surface render(ci::Vec2i maxSize=ci::Vec2i(0,0));
+	ci::gl::Texture getTexture();
+
 	static IDWriteFactory* factory();
 	static CustomDWriteRender* renderer();
 private:
@@ -48,6 +50,7 @@ private:
 	std::wstring mWStr;
 	ci::Vec2i mMaxSize;
 	ci::Surface mSurface;
+	ci::gl::Texture mTexture;
 	
 	std::wstring convertToWide(std::string input);
 	std::string convertToUTF8(std::wstring input);

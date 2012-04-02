@@ -29,6 +29,7 @@ STDMETHODIMP CustomDWriteRender::DrawGlyphRun( __maybenull void* clientDrawingCo
 	{
 		OutputDebugString(L"Error!\n");
 	}
+
 	glyphRunAnalysis->GetAlphaTextureBounds(DWRITE_TEXTURE_CLEARTYPE_3x1,&textureBounds);
 	int width = textureBounds.right-textureBounds.left;
 	int height = textureBounds.bottom -textureBounds.top;
@@ -53,10 +54,10 @@ STDMETHODIMP CustomDWriteRender::DrawGlyphRun( __maybenull void* clientDrawingCo
 	});
 	memcpy(surface.getData(),dataAlpha,width*height*4);
 	float ratio = (float)(glyphRun->fontEmSize)/(float)fontMetrics.designUnitsPerEm;
-	int ascend = fontMetrics.ascent*ratio;
+	float ascend = surface.getBounds().y2 + fontMetrics.descent*ratio;
 	
 	//finalSurface->copyFrom(surface,surface.getBounds(),Vec2i(baselineOriginX,baselineOriginY-ascend));
-	ci::ip::blend(finalSurface,surface,surface.getBounds(),Vec2i(baselineOriginX,baselineOriginY-ascend));
+	ci::ip::blend(finalSurface,surface,surface.getBounds(),Vec2i(baselineOriginX+textureBounds.left,baselineOriginY+textureBounds.top));
 	//mTexture = gl::Texture(surface);
 	free (data);
 	free (dataAlpha);
